@@ -19,7 +19,7 @@ public class GAME : MonoBehaviour
     public Canvas PausedUI;
     public void initGame()
     {
-        player = new PLAYER(200, 10, 20, PLAYER.playerState.IDLE);
+        player = new PLAYER(200, 4, 7, PLAYER.playerState.IDLE);
     }
 
     private void Awake()

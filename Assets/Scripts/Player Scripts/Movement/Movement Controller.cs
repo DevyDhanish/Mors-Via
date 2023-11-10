@@ -9,10 +9,15 @@ public class MovementController : MonoBehaviour
     WalkState walk = new WalkState();
     IdleState idle = new IdleState();
 
+    public CharacterController playerController;
+
     private void Start()
     {
         currentState = idle;
-        currentState.onEnter();
+        currentState.onEnter(this);
+
+        if(playerController == null)
+            playerController = gameObject.GetComponent<CharacterController>();
     }
     private void Update()
     {
@@ -24,13 +29,13 @@ public class MovementController : MonoBehaviour
         }
         // set for sprint too
 
-        currentState.onUpdate();
+        currentState.onUpdate(this);
     }
 
     public void switchState(MovementState newState)
     {
-        currentState.onExit();
+        currentState.onExit(this);
         currentState = newState;
-        currentState.onEnter();
+        currentState.onEnter(this);
     }
 }

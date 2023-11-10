@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PLAYER
@@ -16,6 +17,7 @@ public class PLAYER
     public bool isAlive { get; private set;  }
     public bool isMoving { get; private set; }
     public float health { get; private set; }
+    public Vector3 directionFacing { get; private set; }
 
     public playerState currentPlayerState = playerState.IDLE;
 
@@ -37,6 +39,7 @@ public class PLAYER
         isAlive = true;
         currentPlayerState = _playerState;
         health = _health;
+        directionFacing = Vector3.forward;
     }
 
     public void reduceHealth() { }
@@ -44,5 +47,11 @@ public class PLAYER
     public void setIsMoving(bool val)
     {
         isMoving = val;
+    }
+
+    public void setDirectionFacing(Vector3 _direction)
+    {
+        directionFacing = _direction;
+        directionFacing.Normalize();
     }
 }

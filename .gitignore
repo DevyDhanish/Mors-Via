@@ -5,3 +5,5 @@ UserSettings/
 .vs/
 .vsconfig
 obj/
+*.meta
+Temp/

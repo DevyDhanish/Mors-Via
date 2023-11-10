@@ -4,7 +4,7 @@ using UnityEngine;
 
 abstract public class MovementState
 {
-    public abstract void onEnter();
-    public abstract void onUpdate();
-    public abstract void onExit();
+    public abstract void onEnter(MovementController controller);
+    public abstract void onUpdate(MovementController controller);
+    public abstract void onExit(MovementController controller);
 }

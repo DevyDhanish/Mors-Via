@@ -8,6 +8,7 @@ public class Running : GameStates
     {
         GAME.Instance.gameState = GAME.GameState.RUNNING;
         GAME.Instance.RunningUI.gameObject.SetActive(true);
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public override void onExit()

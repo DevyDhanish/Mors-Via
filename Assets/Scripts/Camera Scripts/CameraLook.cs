@@ -4,38 +4,25 @@ using UnityEngine;
 
 public class CameraLook : MonoBehaviour
 {
-    public float mouseSensitivity = 100.0f;
-    public float clampAngle = 80.0f;
-    public float smoothTime = 0.1f;
+    public float clampX;
+    public float clampY;
+    public float sens;
+    public float smoothness;
 
-    private float rotY = 0.0f; // rotation around the up/y axis
-    private float rotX = 0.0f; // rotation around the right/x axis
-    private float smoothX = 0.0f; // smoothed rotation around the right/x axis
-    private float smoothY = 0.0f; // smoothed rotation around the up/y axis
-    private Vector2 currentRotationVelocity;
-
-    void Start()
-    {
-        Vector3 rot = transform.localRotation.eulerAngles;
-        rotY = rot.y;
-        rotX = rot.x;
-    }
+    private float rotY;
+    private float rotX;
 
     void Update()
     {
-        float mouseX = -InputBindings.Instance.cameraVectorAxis.y;
-        float mouseY = InputBindings.Instance.cameraVectorAxis.x;
+        if (GAME.Instance.gameState != GAME.GameState.RUNNING) return;
 
-        // Smooth the inputs using Mathf.SmoothDamp
-        smoothX = Mathf.SmoothDamp(smoothX, mouseX * mouseSensitivity, ref currentRotationVelocity.x, smoothTime);
-        smoothY = Mathf.SmoothDamp(smoothY, mouseY * mouseSensitivity, ref currentRotationVelocity.y, smoothTime);
+        rotY += InputBindings.Instance.cameraVectorAxis.x * sens;
+        rotX += InputBindings.Instance.cameraVectorAxis.y * sens;
 
-        rotX += smoothX * Time.deltaTime;
-        rotY += smoothY * Time.deltaTime;
+        rotX = Mathf.Clamp(rotX, -clampX, clampX);
+        //rotY = Mathf.Clamp(rotY, -clampY, clampY);
 
-        rotX = Mathf.Clamp(rotX, -clampAngle, clampAngle);
-
-        Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
-        transform.rotation = localRotation;
+        Quaternion target = Quaternion.Euler(-rotX, rotY, 0.0f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * smoothness);
     }
 }
